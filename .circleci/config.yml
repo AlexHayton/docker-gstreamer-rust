@@ -2,9 +2,6 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-environment:
-  RUST_VERSION: 1.72.1
-
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -18,10 +15,10 @@ jobs:
       - run:
           name: Docker build
           command: |
-            docker build -t alexhayton/docker-gstreamer-rust:${RUST_VERSION}
+            docker build -t alexhayton/docker-gstreamer-rust:1.72.1
       - run:
           name: Archive Docker image
-          command: docker save -o image.tar alexhayton/docker-gstreamer-rust:${RUST_VERSION}
+          command: docker save -o image.tar alexhayton/docker-gstreamer-rust:1.72.1
       - persist_to_workspace:
           root: .
           paths:
@@ -42,7 +39,7 @@ jobs:
           name: Publish Docker Image to Docker Hub
           command: |
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-            docker push alexhayton/docker-gstreamer-rust:${RUST_VERSION}
+            docker push alexhayton/docker-gstreamer-rust:1.72.1
 
 workflows:
   build:
